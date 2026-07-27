@@ -21,8 +21,7 @@ cors_kwargs: dict = {
     "allow_headers": ["*"],
     "allow_origins": settings.cors_origin_list,
 }
-if settings.environment == "local":
-    cors_kwargs["allow_origin_regex"] = r"https?://(localhost|127\.0\.0\.1)(:\d+)?"
+cors_kwargs["allow_origin_regex"] = r"https?://(localhost|127\.0\.0\.1)(:\d+)?|https://.*\.vercel\.app"
 
 app.add_middleware(CORSMiddleware, **cors_kwargs)
 

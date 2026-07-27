@@ -1,12 +1,14 @@
 // In dev, use same-origin requests so Vite proxies to the backend (see vite.config.cjs).
 // In production, set VITE_API_BASE_URL to your deployed backend URL.
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ??
-  (import.meta.env.DEV ? "" : "http://localhost:8000");
+  (import.meta.env.VITE_API_BASE_URL && import.meta.env.VITE_API_BASE_URL.trim() !== "")
+    ? import.meta.env.VITE_API_BASE_URL.replace(/\/+$/, "")
+    : (import.meta.env.DEV ? "" : "https://chat-bot-2bhi.onrender.com");
 
 function networkError() {
+  const target = API_BASE_URL || (import.meta.env.DEV ? "http://localhost:8000" : "https://chat-bot-2bhi.onrender.com");
   return new Error(
-    "Cannot reach the backend API. Make sure the backend is running on http://localhost:8000, then refresh this page.",
+    `Cannot reach the backend API at ${target}. Make sure the backend service is active, then refresh this page.`,
   );
 }
 
